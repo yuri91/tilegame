@@ -24,8 +24,7 @@
 constexpr float anim_period = 0.3;
 constexpr float zoom_factor = 1.1;
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     // create the tilemap from the level definition
     TileMap map;
     if (!map.load(argv[1]))
@@ -33,7 +32,6 @@ int main(int argc, char* argv[])
 
     sf::Vector2u mapSize = map.getMapSize();
     sf::Vector2u tileSize = map.getTileSize();
-    // create the window
 
     sf::Vector2u windowSize = sf::Vector2u(mapSize.x * tileSize.x,
                                            mapSize.y * tileSize.y);
@@ -49,78 +47,75 @@ int main(int argc, char* argv[])
 
     sf::Clock anim_clock;
     // run the main loop
-    while (window.isOpen())
-    {
-        // handle events
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            switch(event.type)
-            {
-              case sf::Event::Closed:
-                window.close();
-                break;
-              case sf::Event::KeyPressed:
-                break;
-              case sf::Event::MouseWheelScrolled:
-                if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-                  int delta = event.mouseWheelScroll.delta;
-                  float zoom;
-                  if (delta < 0) {
-                    zoom = zoom_factor;
-                  } else{
-                    zoom = 1.0/zoom_factor;
-                  }
-                  sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-                  sf::Vector2f worldPosPrev = window.mapPixelToCoords(pixelPos);
-                  view.zoom(zoom);
-                  window.setView(view);
-                  sf::Vector2f worldPosCurr = window.mapPixelToCoords(pixelPos);
-                  sf::Vector2f move = worldPosPrev-worldPosCurr;
-                  view.move(move.x, move.y);
-                  scale *= zoom;
+    while (window.isOpen()) {
+      // handle events
+      sf::Event event;
+      while (window.pollEvent(event)) {
+          switch(event.type) {
+            case sf::Event::Closed:
+              window.close();
+              break;
+            case sf::Event::KeyPressed:
+              break;
+            case sf::Event::MouseWheelScrolled:
+              if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                int delta = event.mouseWheelScroll.delta;
+                float zoom;
+                if (delta < 0) {
+                  zoom = zoom_factor;
+                } else{
+                  zoom = 1.0/zoom_factor;
                 }
-                break;
-              case sf::Event::Resized:
-                view.setSize(event.size.width, event.size.height);
-                view.zoom(scale);
-                break;
+                sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+                sf::Vector2f worldPosPrev = window.mapPixelToCoords(pixelPos);
+                view.zoom(zoom);
+                window.setView(view);
+                sf::Vector2f worldPosCurr = window.mapPixelToCoords(pixelPos);
+                sf::Vector2f move = worldPosPrev-worldPosCurr;
+                view.move(move.x, move.y);
+                scale *= zoom;
+              }
+              break;
+            case sf::Event::Resized:
+              view.setSize(event.size.width, event.size.height);
+              view.zoom(scale);
+              break;
 
-              case sf::Event::MouseButtonPressed:
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                  prevPos = sf::Vector2i(event.mouseButton.x,
-                                          event.mouseButton.y);
-                  dragging = true;
-                }
-                break;
-              case sf::Event::MouseButtonReleased:
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                  dragging = false;
-                }
-                break;
-            }
-        }
-        sf::Time elapsed = anim_clock.getElapsedTime();
-        if (elapsed.asSeconds() >= anim_period) {
-          anim_clock.restart();
-          map.next_frame();
-        }
-        if (dragging) {
-          sf::Vector2i curPos = sf::Mouse::getPosition(window);
+            case sf::Event::MouseButtonPressed:
+              if (event.mouseButton.button == sf::Mouse::Left) {
+                prevPos = sf::Vector2i(event.mouseButton.x,
+                                        event.mouseButton.y);
+                dragging = true;
+              }
+              break;
+            case sf::Event::MouseButtonReleased:
+              if (event.mouseButton.button == sf::Mouse::Left) {
+                dragging = false;
+              }
+              break;
+          }
+      }
+      sf::Time elapsed = anim_clock.getElapsedTime();
+      if (elapsed.asSeconds() >= anim_period) {
+        anim_clock.restart();
+        map.next_frame();
+      }
+      if (dragging) {
+        sf::Vector2i curPos = sf::Mouse::getPosition(window);
 
-          int dx = prevPos.x - curPos.x;
-          int dy = prevPos.y - curPos.y;
+        int dx = prevPos.x - curPos.x;
+        int dy = prevPos.y - curPos.y;
 
-          prevPos = curPos;
+        prevPos = curPos;
 
-          view.move(dx*scale, dy*scale);
-        }
+        view.move(dx*scale, dy*scale);
+      }
 
-        // draw the map
-        window.clear();
-        window.setView(view);
-        window.draw(map);
-        window.display();
+      // draw the map
+      window.clear();
+      window.setView(view);
+      window.draw(map);
+      window.display();
     }
 
     return 0;
