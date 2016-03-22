@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-bool TileSet::load(const Tmx::Tileset& tileset) {
+bool TileSet::load(const Tmx::Tileset& tileset, std::string basepath) {
 
   m_tileSize = sf::Vector2u(tileset.GetTileWidth(), tileset.GetTileHeight());
 
-  std::string source = tileset.GetImage()->GetSource();
+  std::string source = basepath + "/" + tileset.GetImage()->GetSource();
 
   m_textures.emplace_back();
   // load the tileset texture

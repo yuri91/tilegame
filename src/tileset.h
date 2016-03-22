@@ -10,7 +10,7 @@ typedef std::array<sf::Vertex, 4> Quad;
 
 class TileSet {
  public:
-  bool load(const Tmx::Tileset& tileset);
+  bool load(const Tmx::Tileset& tileset, std::string basepath);
 
   sf::Vector2u getTileSize() {
     return m_tileSize;

@@ -19,10 +19,11 @@ bool TileMap::load(const std::string& tmx_path) {
 
   m_tileSize = sf::Vector2u(map.GetTileWidth(), map.GetTileHeight());
 
+  std::string basepath = map.GetFilepath();
   for (int i = 0; i < map.GetNumTilesets(); i++) {
     const Tmx::Tileset *tileset = map.GetTileset(i);
     m_tilesets.emplace_back();
-    if (!m_tilesets.back().load(*tileset))
+    if (!m_tilesets.back().load(*tileset, basepath))
       return false;
   }
 
