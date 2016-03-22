@@ -36,3 +36,8 @@ if(TMXPARSER_FOUND)
   target_link_libraries(${EXECUTABLE_NAME} ${TMXPARSER_LIBRARY})
 endif()
 
+
+install(TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/ DESTINATION share/${CMAKE_PROJECT_NAME})
+
+include(CPack)
