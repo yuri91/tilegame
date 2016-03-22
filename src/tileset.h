@@ -15,15 +15,19 @@ class TileSet {
   sf::Vector2u getTileSize() {
     return m_tileSize;
   }
-  sf::Texture& getTexture() {
-    return m_texture;
+  sf::Texture& getTexture(int i) {
+    if (i >= m_textures.size())
+      i = 0;
+    return m_textures[i];
   }
 
   Quad getQuad(int x, int y, int tileNumber);
 
  private:
-  sf::Texture m_texture;
+  std::vector<sf::Texture> m_textures;
+
   sf::Vector2u m_tileSize;
+  sf::Vector2u m_textureSize;
 };
 
 #endif  // TILESET_H_

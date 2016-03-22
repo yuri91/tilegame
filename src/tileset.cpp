@@ -1,20 +1,36 @@
 #include "./tileset.h"
 
+#include <iostream>
+
 bool TileSet::load(const Tmx::Tileset& tileset) {
 
   m_tileSize = sf::Vector2u(tileset.GetTileWidth(), tileset.GetTileHeight());
 
-    // load the tileset texture
-    if (!m_texture.loadFromFile(tileset.GetImage()->GetSource()))
-      return false;
+  std::string source = tileset.GetImage()->GetSource();
 
-    return true;
+  m_textures.emplace_back();
+  // load the tileset texture
+  if (!m_textures.back().loadFromFile(source))
+    return false;
+
+  m_textureSize = m_textures.back().getSize();
+
+  // TODO: this is super ugly
+  std::string suffix = "0.png";
+  if (std::equal(suffix.rbegin(), suffix.rend(), source.rbegin())) {
+    *(source.rbegin()+4) = '1';
+    m_textures.emplace_back();
+    if (!m_textures.back().loadFromFile(source))
+      return false;
+  }
+
+  return true;
 }
 
 Quad TileSet::getQuad(int x, int y, int tileNumber) {
   // find its position in the tileset texture
-  int tu = tileNumber % (m_texture.getSize().x / m_tileSize.x);
-  int tv = tileNumber / (m_texture.getSize().x / m_tileSize.x);
+  int tu = tileNumber % (m_textureSize.x / m_tileSize.x);
+  int tv = tileNumber / (m_textureSize.x / m_tileSize.x);
 
   Quad quad;
 

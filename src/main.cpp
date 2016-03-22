@@ -1,8 +1,11 @@
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 
 #include <iostream>
 
 #include "tilemap.h"
+
+constexpr float anim_period = 0.3;
 
 int main(int argc, char* argv[])
 {
@@ -17,6 +20,7 @@ int main(int argc, char* argv[])
     sf::RenderWindow window(sf::VideoMode(mapSize.x*tileSize.x, mapSize.y*tileSize.y), "Tilemap");
     window.setVerticalSyncEnabled(true);
 
+    sf::Clock anim_clock;
     // run the main loop
     while (window.isOpen())
     {
@@ -30,9 +34,13 @@ int main(int argc, char* argv[])
                 window.close();
                 break;
               case sf::Event::KeyPressed:
-                std::cout<<event.key.code<<std::endl;
                 break;
             }
+        }
+        sf::Time elapsed = anim_clock.getElapsedTime();
+        if (elapsed.asSeconds() >= anim_period) {
+          anim_clock.restart();
+          map.next_frame();
         }
 
         // draw the map

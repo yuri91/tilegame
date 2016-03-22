@@ -21,6 +21,12 @@ class TileMap : public sf::Drawable, public sf::Transformable {
     return m_tileSize;
   }
 
+  void next_frame() {
+    for (auto& tilelayer: m_tilelayers) {
+      tilelayer.next_frame();
+    }
+  }
+
  private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

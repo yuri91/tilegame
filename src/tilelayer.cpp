@@ -6,6 +6,9 @@ bool TileLayer::load(const Tmx::TileLayer& tileLayer,
                      std::vector<TileSet>& tileSets,
                      int width, int height) {
 
+  auto& props = tileLayer.GetProperties();
+  animated = props.GetIntProperty("animated",0) == 1;
+
   // populate the vertex array, with one quad per tile
   for (unsigned int x = 0; x < width; ++x) {
     for (unsigned int y = 0; y < height; ++y) {
@@ -19,7 +22,7 @@ bool TileLayer::load(const Tmx::TileLayer& tileLayer,
         auto it = m_fragments.find(tilesetIndex);
         if (it == m_fragments.end()) {
           auto pair = m_fragments.insert(
-              std::make_pair(tilesetIndex, LayerFragment(tileset)));
+              std::make_pair(tilesetIndex, LayerFragment(tileset, animated)));
           it = pair.first;
         }
         LayerFragment& frag = it->second;
