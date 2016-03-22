@@ -2,6 +2,4 @@
 
 cd "$(dirname "$0")"
 
-cd assets/Examples
-
-../../build/tiletest Mine.tmx
+./build/tiletest assets/Mine.tmx
