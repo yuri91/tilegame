@@ -15,8 +15,7 @@ An experimental tile engine with SFML
 * CMake
 * SFML 2.*
 * [tmxparser](https://github.com/andrewrk/tmxparser)
-* [Dawnlike tileset] (opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181)
-  extract it in the `tiletest/assets` folder
+* [Dawnlike tileset] (opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181) : extract it in the `tiletest/assets` folder
 
 ## Build
 
