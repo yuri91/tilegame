@@ -26,7 +26,7 @@ if(TMXPARSER_FOUND)
   set_property(TARGET tmxparser PROPERTY INTERFACE_LINK_LIBRARIES ${TMXPARSER_LIBRARY})
 endif()
 
-add_subdirectory(tile_manager)
+add_subdirectory(tilemanager)
 add_subdirectory(tiletest)
 
 include(CPack)

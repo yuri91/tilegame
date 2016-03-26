@@ -11,7 +11,7 @@ add_executable(${EXECUTABLE_NAME}
 )
 
 target_link_libraries(${EXECUTABLE_NAME}
-    tile_manager
+    tilemanager
     sfml
 )
 

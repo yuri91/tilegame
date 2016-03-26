@@ -14,38 +14,53 @@
 //  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 //  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef TILELAYER_H_
-#define TILELAYER_H_
+#ifndef LAYERFRAGMENT_H_
+#define LAYERFRAGMENT_H_
 
 #include <SFML/Graphics.hpp>
 #include <tmxparser/Tmx.h>
 
-#include <vector>
-#include <map>
-
-#include "tile_manager/layerfragment.h"
+#include "tilemanager/tileset.h"
 
 namespace Tm {
 
-class TileLayer : public sf::Drawable, public sf::Transformable {
+class LayerFragment: public sf::Drawable, public sf::Transformable {
  public:
-  bool load(const Tmx::TileLayer& tileLayer,
-            std::vector<TileSet>& tileSets, int width, int height);
+  LayerFragment(TileSet& tileset, bool animated): tileset(tileset),
+                                                  animated(animated) {
+     vertices.setPrimitiveType(sf::Quads);
+  }
+  ~LayerFragment(){}
 
-  void next_frame() {
-    for (auto& it: m_fragments) {
-      it.second.next_frame();
+  void add(Quad quad) {
+    for (int i = 0; i < 4; i++) {
+      vertices.append(quad[i]);
     }
   }
 
+  void next_frame() {
+    if (animated)
+      frame = (frame + 1 ) % 2;
+  }
+
  private:
-  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+  virtual void draw(sf::RenderTarget& target,
+                             sf::RenderStates states) const {
+    // apply the transform
+    states.transform *= getTransform();
 
-  std::map<int, LayerFragment> m_fragments;
+    //draw
+    states.texture = &tileset.getTexture(frame);
+    target.draw(vertices, states);
+  }
 
-  bool animated{false};
+  TileSet& tileset;
+  sf::VertexArray vertices;
+
+  bool animated;
+  int frame{0};
 };
 
 }  // namespace Tm
 
-#endif  // TILELAYER_H_
+#endif  // LAYERFRAGMENT_H_

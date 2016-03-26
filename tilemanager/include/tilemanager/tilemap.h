@@ -14,53 +14,47 @@
 //  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 //  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef LAYERFRAGMENT_H_
-#define LAYERFRAGMENT_H_
+#ifndef TILEMAP_H_
+#define TILEMAP_H_
 
 #include <SFML/Graphics.hpp>
 #include <tmxparser/Tmx.h>
 
-#include "tile_manager/tileset.h"
+#include <vector>
+
+#include "tilemanager/tileset.h"
+#include "tilemanager/tilelayer.h"
 
 namespace Tm {
 
-class LayerFragment: public sf::Drawable, public sf::Transformable {
+class TileMap : public sf::Drawable, public sf::Transformable {
  public:
-  LayerFragment(TileSet& tileset, bool animated): tileset(tileset),
-                                                  animated(animated) {
-     vertices.setPrimitiveType(sf::Quads);
-  }
-  ~LayerFragment(){}
+  bool load(const std::string& tmx_path);
 
-  void add(Quad quad) {
-    for (int i = 0; i < 4; i++) {
-      vertices.append(quad[i]);
-    }
+  sf::Vector2u getMapSize() {
+    return m_mapSize;
+  }
+
+  sf::Vector2u getTileSize() {
+    return m_tileSize;
   }
 
   void next_frame() {
-    if (animated)
-      frame = (frame + 1 ) % 2;
+    for (auto& tilelayer: m_tilelayers) {
+      tilelayer.next_frame();
+    }
   }
 
  private:
-  virtual void draw(sf::RenderTarget& target,
-                             sf::RenderStates states) const {
-    // apply the transform
-    states.transform *= getTransform();
+  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    //draw
-    states.texture = &tileset.getTexture(frame);
-    target.draw(vertices, states);
-  }
+  std::vector<TileSet> m_tilesets;
+  std::vector<TileLayer> m_tilelayers;
 
-  TileSet& tileset;
-  sf::VertexArray vertices;
-
-  bool animated;
-  int frame{0};
+  sf::Vector2u m_mapSize;
+  sf::Vector2u m_tileSize;
 };
 
 }  // namespace Tm
 
-#endif  // LAYERFRAGMENT_H_
+#endif  // TILEMAP_H_

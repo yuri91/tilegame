@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(tile_manager VERSION 0.1 LANGUAGES CXX)
 
-set(LIB_NAME "tile_manager")
+set(LIB_NAME "tilemanager")
 include_directories("include/")
 add_library(${LIB_NAME}
 	src/tilemap.cpp
@@ -29,4 +29,4 @@ install(TARGETS ${LIB_NAME}
 install(DIRECTORY include/ DESTINATION include)
 
 # This makes the project importable from the build directory
-export(TARGETS ${LIB_NAME} FILE MyLibraryConfig.cmake)
+export(TARGETS ${LIB_NAME} FILE TileManagerConfig.cmake)

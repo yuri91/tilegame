@@ -14,47 +14,38 @@
 //  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 //  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef TILEMAP_H_
-#define TILEMAP_H_
+#ifndef TILELAYER_H_
+#define TILELAYER_H_
 
 #include <SFML/Graphics.hpp>
 #include <tmxparser/Tmx.h>
 
 #include <vector>
+#include <map>
 
-#include "tile_manager/tileset.h"
-#include "tile_manager/tilelayer.h"
+#include "tilemanager/layerfragment.h"
 
 namespace Tm {
 
-class TileMap : public sf::Drawable, public sf::Transformable {
+class TileLayer : public sf::Drawable, public sf::Transformable {
  public:
-  bool load(const std::string& tmx_path);
-
-  sf::Vector2u getMapSize() {
-    return m_mapSize;
-  }
-
-  sf::Vector2u getTileSize() {
-    return m_tileSize;
-  }
+  bool load(const Tmx::TileLayer& tileLayer,
+            std::vector<TileSet>& tileSets, int width, int height);
 
   void next_frame() {
-    for (auto& tilelayer: m_tilelayers) {
-      tilelayer.next_frame();
+    for (auto& it: m_fragments) {
+      it.second.next_frame();
     }
   }
 
  private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-  std::vector<TileSet> m_tilesets;
-  std::vector<TileLayer> m_tilelayers;
+  std::map<int, LayerFragment> m_fragments;
 
-  sf::Vector2u m_mapSize;
-  sf::Vector2u m_tileSize;
+  bool animated{false};
 };
 
 }  // namespace Tm
 
-#endif  // TILEMAP_H_
+#endif  // TILELAYER_H_

@@ -19,7 +19,7 @@
 
 #include <iostream>
 
-#include <tile_manager/tilemap.h>
+#include <tilemanager/tilemap.h>
 
 constexpr float anim_period = 0.3;
 constexpr float zoom_factor = 1.1;
