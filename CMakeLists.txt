@@ -1,6 +1,6 @@
 #Change this if you need to target a specific CMake version
 cmake_minimum_required(VERSION 3.0)
-project(tiles)
+project(tilegame)
 
 #more portable way??
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -27,6 +27,6 @@ if(TMXPARSER_FOUND)
 endif()
 
 add_subdirectory(tile_manager)
-add_subdirectory(test)
+add_subdirectory(tiletest)
 
 include(CPack)
