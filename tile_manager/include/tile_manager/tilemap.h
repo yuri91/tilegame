@@ -25,6 +25,8 @@
 #include "tile_manager/tileset.h"
 #include "tile_manager/tilelayer.h"
 
+namespace Tm {
+
 class TileMap : public sf::Drawable, public sf::Transformable {
  public:
   bool load(const std::string& tmx_path);
@@ -52,5 +54,7 @@ class TileMap : public sf::Drawable, public sf::Transformable {
   sf::Vector2u m_mapSize;
   sf::Vector2u m_tileSize;
 };
+
+}  // namespace Tm
 
 #endif  // TILEMAP_H_

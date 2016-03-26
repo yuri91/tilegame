@@ -25,6 +25,8 @@
 
 #include "tile_manager/layerfragment.h"
 
+namespace Tm {
+
 class TileLayer : public sf::Drawable, public sf::Transformable {
  public:
   bool load(const Tmx::TileLayer& tileLayer,
@@ -43,5 +45,7 @@ class TileLayer : public sf::Drawable, public sf::Transformable {
 
   bool animated{false};
 };
+
+}  // namespace Tm
 
 #endif  // TILELAYER_H_

@@ -26,7 +26,8 @@ constexpr float zoom_factor = 1.1;
 
 int main(int argc, char* argv[]) {
     // create the tilemap from the level definition
-    TileMap map;
+
+    Tm::TileMap map;
     if (!map.load(argv[1]))
         return -1;
 

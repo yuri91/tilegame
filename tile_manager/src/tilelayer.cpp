@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+namespace Tm {
+
 bool TileLayer::load(const Tmx::TileLayer& tileLayer,
                      std::vector<TileSet>& tileSets,
                      int width, int height) {
@@ -62,3 +64,5 @@ void TileLayer::draw(sf::RenderTarget& target,
     target.draw(frag, states);
   }
 }
+
+}  // namespace Tm

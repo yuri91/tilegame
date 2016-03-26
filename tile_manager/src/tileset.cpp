@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+namespace Tm {
+
 bool TileSet::load(const Tmx::Tileset& tileset, std::string basepath) {
 
   m_tileSize = sf::Vector2u(tileset.GetTileWidth(), tileset.GetTileHeight());
@@ -71,3 +73,5 @@ Quad TileSet::getQuad(int x, int y, int tileNumber) {
                                    (tv + 1) * m_tileSize.y);
   return quad;
 }
+
+}  // namespace Tm

@@ -22,6 +22,8 @@
 
 #include <vector>
 
+namespace Tm {
+
 typedef std::array<sf::Vertex, 4> Quad;
 
 class TileSet {
@@ -45,5 +47,7 @@ class TileSet {
   sf::Vector2u m_tileSize;
   sf::Vector2u m_textureSize;
 };
+
+}  // namespace Tm
 
 #endif  // TILESET_H_

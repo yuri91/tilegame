@@ -22,6 +22,8 @@
 
 #include "tile_manager/tileset.h"
 
+namespace Tm {
+
 class LayerFragment: public sf::Drawable, public sf::Transformable {
  public:
   LayerFragment(TileSet& tileset, bool animated): tileset(tileset),
@@ -58,5 +60,7 @@ class LayerFragment: public sf::Drawable, public sf::Transformable {
   bool animated;
   int frame{0};
 };
+
+}  // namespace Tm
 
 #endif  // LAYERFRAGMENT_H_

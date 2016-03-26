@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+namespace Tm {
 
 bool TileMap::load(const std::string& tmx_path) {
 
@@ -62,3 +63,5 @@ void TileMap::draw(sf::RenderTarget& target,
     target.draw(tilelayer, states);
   }
 }
+
+}  // namespace Tm
