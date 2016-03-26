@@ -1,4 +1,4 @@
-# Tiletest
+# Tilegame
 
 An experimental tile engine with SFML
 
